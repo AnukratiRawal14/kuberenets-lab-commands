@@ -77,3 +77,60 @@ spec:
       - name: httpd-frontend
         image: httpd:2.4-alpine
 </pre>
+------------------ NAMESPACES ----------------------<br>
+<br>
+To get namespaces
+<pre>kubectl get ns</pre>
+
+To check how many pods present in particular namespace
+<pre>kubectl get pods -n research</pre>
+
+To create namespace
+<pre>kubectl create ns test</pre>
+Create a POD in the finance namespace. Name=redis , image=redis
+<pre>kubectl run redis --image=redis -n finance</pre>
+
+------------------ SERVICES----------------------<br>
+<br>
+To get service which are available
+<pre>kubectl get svc </pre>
+
+To know the target port
+<pre>kubectl describe svc</pre>
+Create a new service to access the web application using the service-definition-1.yaml file.<br>
+Name: webapp-service<br>
+Type: NodePort<br>
+targetPort: 8080<br>
+port: 8080<br>
+nodePort: 30080<br>
+selector:<br>
+  name: simple-webapp<br>
+<pre>vi service-defintion-1.yaml</pre>
+<pre>kubectl apply -f /root/service-definition-1.yaml</pre>
+
+--------------- Imperative Commands --------------<br>
+<br>
+Deploy a pod named nginx-pod using the nginx:alpine image.
+<pre>kubectl run nginx-pod --image=nginx:alpine</pre>
+
+Deploy a redis pod using the redis:alpine image with the labels set to tier=db.
+<pre>kubectl run redis --image=redis:alpine -l tier=db</pre>
+
+Create a service redis-service to expose the redis application within the cluster on port 6379.
+<pre>kubectl expose pod redis --port=6379 --name=redis-service</pre>
+
+Create a deployment named webapp using the image kodekloud/webapp-color with 3 replicas.
+<pre>kubectl create deployment webapp --image=kodekloud/webapp-color --replicas=3</pre>
+
+Create a new pod called custom-nginx using the nginx image and expose it on container port 8080.
+<pre>kubectl run custom-nginx --image=nginx --port=8080</pre>
+
+Create a new namespace called dev-ns.
+<pre>kubectl create ns dev-ns</pre>
+
+Create a new deployment called redis-deploy in the dev-ns namespace with the redis image. It should have 2 replicas.
+<pre>kubectl create deployment redis-deploy --image=redis --replicas=2 -n dev-ns</pre>
+
+Create a pod called httpd using the image httpd:alpine in the default namespace. Next, create a service of type ClusterIP by the
+same name (httpd). The target port for the service should be 80.
+<pre>kubectl run httpd --image=httpd:alpine --port=80 --expose</pre>
