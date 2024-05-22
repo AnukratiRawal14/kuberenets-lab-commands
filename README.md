@@ -48,7 +48,8 @@ kubectl scale rs new-replica-set --replicas=5 </pre>
 Delete any one of the 4 PODs.
 <pre>kubectl delete pod <name-of-the-pod> </pre>
 
------------------- DEPLOYMENT -----------------------
+------------------ DEPLOYMENT -----------------------<br>
+<br>
 To check deployment
 <pre> kubectl get deployment </pre>
 Edit and apply deployment 
