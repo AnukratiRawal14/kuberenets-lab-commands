@@ -48,4 +48,31 @@ kubectl scale rs new-replica-set --replicas=5 </pre>
 Delete any one of the 4 PODs.
 <pre>kubectl delete pod <name-of-the-pod> </pre>
 
+------------------ DEPLOYMENT -----------------------
+To check deployment
+<pre> kubectl get deployment </pre>
+Edit and apply deployment 
+<pre> vi deployment-definition-1.yaml </pre>
+<pre>kubectl apply -f deployment-definition-1.yaml</pre>
 
+Create a new deployment- name=httpd-frontend, image=httpd:2.4-alpine, replicas=3
+<pre>
+  ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: httpd-frontend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      name: httpd-frontend
+  template:
+    metadata:
+      labels:
+        name: httpd-frontend
+    spec:
+      containers:
+      - name: httpd-frontend
+        image: httpd:2.4-alpine
+</pre>
