@@ -141,3 +141,43 @@ spec:
 
 <pre>kubectl create -f deploy.yaml</pre>
 
+
+----------------- DaemonSets ---------------------<br>
+<br>
+How many DaemonSets are created in the cluster in all namespaces? Check all namespaces
+<pre>kubectl get daemonsets --all-namespaces</pre>
+
+What is the image used by the POD deployed by the kube-flannel-ds DaemonSet?
+<pre>kubectl describe daemonset kube-flannel-ds --namespace=kube-flannel</pre>
+
+Deploy a DaemonSet for FluentD Logging. Use the given specifications.
+<ul>
+  <li>Name: elasticsearch</li>
+  <li>Namespace: kube-system</li>
+  <li>Image: registry.k8s.io/fluentd-elasticsearch:1.20</li>
+</ul>
+<pre>An easy way to create a DaemonSet is to first generate a YAML file for a Deployment with the command kubectl create 
+deployment elasticsearch --image=registry.k8s.io/fluentd-elasticsearch:1.20 -n kube-system --dry-run=client -o yaml > fluentd.yaml. 
+Next, remove the replicas, strategy and status fields from the YAML file using a text editor. Also, change the kind from Deployment 
+to DaemonSet.Finally, create the Daemonset by running kubectl create -f fluentd.yaml</pre>
+<pre>---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  labels:
+    app: elasticsearch
+  name: elasticsearch
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      app: elasticsearch
+  template:
+    metadata:
+      labels:
+        app: elasticsearch
+    spec:
+      containers:
+      - image: registry.k8s.io/fluentd-elasticsearch:1.20
+        name: fluentd-elasticsearch</pre>
+<pre>kubectl apply -f fluentd.yaml</pre>
